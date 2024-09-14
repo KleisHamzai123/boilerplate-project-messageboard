@@ -1,5 +1,7 @@
 'use strict';
 require('dotenv').config();
+require('/workspace/boilerplate-project-messageboard/db-connection.js');
+
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
@@ -16,6 +18,13 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-DNS-Prefetch-Control', 'off');
+  res.setHeader('Referrer-Policy', 'same-origin');
+  next();
+});
 
 //Sample front-end
 app.route('/b/:board/')
